@@ -14,7 +14,7 @@ int generateRandomAscii(){
 
   int randomAscii;
 
-  randomAscii = (int) (10.0*rand()/(RAND_MAX + 1.0));
+  randomAscii = (int) (128.0*rand()/(RAND_MAX + 1.0));
 
   return randomAscii;
 };
@@ -225,7 +225,43 @@ int couponTest(){
   printf("%d\n", count);
 }
 
+int processASCII(){
+  int rASCII;
+  int i;
 
+
+
+  int r1, r2, r3, r4;
+
+  FILE *fp;
+  int fileSize = 0;
+  int filePlace = 0;
+
+  int temp;
+
+  char *tempStr;
+
+  fp = fopen("ASCIIfile.txt", "w");
+
+  for (i=1;i<=4000;i++){
+    rASCII = generateRandomAscii();
+    fprintf(fp, "%d %s", rASCII, " ");
+    //printf("%d", i);
+  }
+
+
+  rewind(fp);
+
+  if( fscanf(fp, "%d %*s", &temp) == EOF){
+    printf("EOF!\n");
+  }
+
+
+
+
+
+
+}
 
 
 
@@ -241,6 +277,7 @@ int main() {
   pokerTest();
   maximumTest();
   couponTest();
+  processASCII();
 //  generateRandomNumber();
 
 
