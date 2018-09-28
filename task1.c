@@ -256,8 +256,9 @@ int processRandomNumberFile(){
 
   FILE *fp;
   int temp;
-  int r [ 4000 ];
+
   int i;
+  int count = 0;
 
   fp = fopen("numberfile.txt", "w");
 
@@ -265,6 +266,54 @@ int processRandomNumberFile(){
     temp = generateRandomNumber();
     fprintf(fp, "%d", temp);
   }
+
+  fclose(fp);
+
+  fp = fopen("numberfile.txt", "r");
+  while(fgetc(fp)!=EOF) count++;
+
+  //printf("%d", count);
+  rewind(fp);
+  int r [ count ];
+  int r1, r2, r3, r4;
+  int none = 0;
+  int doubles = 0;
+  int pairs = 0;
+  int triples = 0;
+  int quads = 0;
+
+  for (i=1;i<=count/4;i++){
+    //r [i-1] = fgetc(fp);
+    r1 = fgetc(fp);
+    r2 = fgetc(fp);
+    r3 = fgetc(fp);
+    r4 = fgetc(fp);
+
+    if( r1==r2 && r2==r3 && r3==r4 ){
+      quads++;
+      }else if( (r1==r2 && r2==r3) || (r2==r3 && r3==r4) || (r1==r2 && r2==r4) || (r1==r3 && r3 == r4) ){
+      triples++;
+      }else if( (r1==r2 && r3==r4) || (r2==r3 && r4==r1) || (r1==r3 && r2==r4) ){
+      pairs++;
+      }else if( r1==r2 || r1==r3 || r1==r4 || r2==r3 || r2==r4 || r3==r4){
+      doubles++;
+      }else{
+      none++;
+      }
+    }
+
+  printf("No. of quads: ");
+  printf("%d\n", quads);
+  printf("No. of triples: ");
+  printf("%d\n", triples);
+  printf("No. of pairs: ");
+  printf("%d\n", pairs);
+  printf("No. of doubles: ");
+  printf("%d\n", doubles);
+  printf("No. of nones: ");
+  printf("%d\n", none);
+
+
 
 
   return 0;
