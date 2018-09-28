@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 int generateRandomNumber(){
 
   int randomNumber;
@@ -7,6 +8,15 @@ int generateRandomNumber(){
   randomNumber = (int) (10.0*rand()/(RAND_MAX + 1.0));
 
   return randomNumber;
+};
+
+int generateRandomAscii(){
+
+  int randomAscii;
+
+  randomAscii = (int) (10.0*rand()/(RAND_MAX + 1.0));
+
+  return randomAscii;
 };
 
 int meanTest(){
@@ -121,6 +131,102 @@ printf("begin gap test\n");
 
 
 
+int pokerTest(){
+
+  int r1, r2, r3, r4;
+  int none = 0;
+  int doubles = 0;
+  int pairs = 0;
+  int triples = 0;
+  int quads = 0;
+
+  int i;
+
+  printf("begin poker test\n");
+
+  for (i=1; i<=1000; i++){
+    r1 = generateRandomNumber();
+    r2 = generateRandomNumber();
+    r3 = generateRandomNumber();
+    r4 = generateRandomNumber();
+
+    if( r1==r2 && r2==r3 && r3==r4 ){
+      quads++;
+      }else if( (r1==r2 && r2==r3) || (r2==r3 && r3==r4) || (r1==r2 && r2==r4) || (r1==r3 && r3 == r4) ){
+      triples++;
+      }else if( (r1==r2 && r3==r4) || (r2==r3 && r4==r1) || (r1==r3 && r2==r4) ){
+      pairs++;
+      }else if( r1==r2 || r1==r3 || r1==r4 || r2==r3 || r2==r4 || r3==r4){
+      doubles++;
+      }else{
+      none++;
+      }
+    }
+
+    printf("No. of quads: ");
+    printf("%d\n", quads);
+    printf("No. of triples: ");
+    printf("%d\n", triples);
+    printf("No. of pairs: ");
+    printf("%d\n", pairs);
+    printf("No. of doubles: ");
+    printf("%d\n", doubles);
+    printf("No. of nones: ");
+    printf("%d\n", none);
+
+  }
+
+
+
+int maximumTest(){
+  int count=0;
+  int i;
+  int r1, r2, r3;
+
+  printf("begin maximum test\n");
+
+  for (i=1; i<=1000; i++){
+    r1 = generateRandomNumber();
+    r2 = generateRandomNumber();
+    r3 = generateRandomNumber();
+
+    if(r2>r1 && r2>r3){
+      count++;
+    }
+  }
+  printf("Count of times middle number was highest: ");
+  printf("%d\n", count);
+}
+
+
+int couponTest(){
+  bool collected [10] = {false, false, false, false, false, false, false, false, false, false};
+  bool win = false;
+  int r;
+  int i;
+  int count = 0;
+
+
+  while ( !win ) {
+    count++;
+    r = generateRandomNumber();
+    if ( collected [r] == false ){
+      collected [r] = true;
+      win = true;
+      for (i = 1; i<=10; i++){
+        if (collected [i-1] == false){
+          win = false;
+
+        }
+      }
+    }
+  }
+  printf("Number generated before we got one of each digit: ");
+  printf("%d\n", count);
+}
+
+
+
 
 
 
@@ -132,6 +238,9 @@ int main() {
   oddsEvensTest();
   serialTest();
   gapTest();
+  pokerTest();
+  maximumTest();
+  couponTest();
 //  generateRandomNumber();
 
 
