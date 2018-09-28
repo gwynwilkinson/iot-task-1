@@ -225,20 +225,16 @@ int couponTest(){
   printf("%d\n", count);
 }
 
-int processASCII(){
+int processASCIIfile(){
   int rASCII;
   int i;
-
-
 
   int r1, r2, r3, r4;
 
   FILE *fp;
   int fileSize = 0;
   int filePlace = 0;
-
   int temp;
-
   char *tempStr;
 
   fp = fopen("ASCIIfile.txt", "w");
@@ -249,22 +245,30 @@ int processASCII(){
     //printf("%d", i);
   }
 
-
   rewind(fp);
 
   if( fscanf(fp, "%d %*s", &temp) == EOF){
     printf("EOF!\n");
   }
-
-
-
-
-
-
 }
 
+int processRandomNumberFile(){
+
+  FILE *fp;
+  int temp;
+  int r [ 4000 ];
+  int i;
+
+  fp = fopen("numberfile.txt", "w");
+
+  for(i=1;i<=4000;i++){
+    temp = generateRandomNumber();
+    fprintf(fp, "%d", temp);
+  }
 
 
+  return 0;
+}
 
 
 int main() {
@@ -277,7 +281,8 @@ int main() {
   pokerTest();
   maximumTest();
   couponTest();
-  processASCII();
+  processASCIIfile();
+  processRandomNumberFile();
 //  generateRandomNumber();
 
 
