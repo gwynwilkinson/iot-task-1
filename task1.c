@@ -20,7 +20,7 @@ int generateRandomAscii(){
 };
 
 int meanTest(){
-  int meanArray[1000];
+  //int meanArray[1000];
   int i;
   float mean;
 
@@ -127,6 +127,8 @@ printf("begin gap test\n");
   for(i=1;i<=7;i++){
     printf("%f\n", gapArray[i-1]);
   }
+
+  return 0;
 }
 
 
@@ -163,18 +165,19 @@ int pokerTest(){
       }
     }
 
-    printf("No. of quads: ");
-    printf("%d\n", quads);
-    printf("No. of triples: ");
-    printf("%d\n", triples);
-    printf("No. of pairs: ");
-    printf("%d\n", pairs);
-    printf("No. of doubles: ");
-    printf("%d\n", doubles);
-    printf("No. of nones: ");
-    printf("%d\n", none);
+  printf("No. of quads: ");
+  printf("%d\n", quads);
+  printf("No. of triples: ");
+  printf("%d\n", triples);
+  printf("No. of pairs: ");
+  printf("%d\n", pairs);
+  printf("No. of doubles: ");
+  printf("%d\n", doubles);
+  printf("No. of nones: ");
+  printf("%d\n", none);
 
-  }
+  return 0;
+}
 
 
 
@@ -196,6 +199,8 @@ int maximumTest(){
   }
   printf("Count of times middle number was highest: ");
   printf("%d\n", count);
+
+  return 0;
 }
 
 
@@ -223,33 +228,90 @@ int couponTest(){
   }
   printf("Number generated before we got one of each digit: ");
   printf("%d\n", count);
+
+  return 0;
 }
 
 int processASCIIfile(){
   int rASCII;
   int i;
 
-  int r1, r2, r3, r4;
+  int r1, r2, r3, r4, x =0;
+  int none = 0;
+  int doubles = 0;
+  int pairs = 0;
+  int triples = 0;
+  int quads = 0;
 
   FILE *fp;
   int fileSize = 0;
-  int filePlace = 0;
-  int temp;
-  char *tempStr;
 
+  printf("begin ASCII file processing\n");
+
+  /* open file and assign it the handle 'fp' */
   fp = fopen("ASCIIfile.txt", "w");
 
+  /* generate 4000 random ASCII characters and put them in 'fp'
+     separated by a " " character */
   for (i=1;i<=4000;i++){
     rASCII = generateRandomAscii();
-    fprintf(fp, "%d %s", rASCII, " ");
+    fprintf(fp, "%d ", rASCII);
     //printf("%d", i);
   }
 
+  /* returns 'fp' position marker to start of file */
+  //rewind(fp);
+  fclose(fp);
+  fopen("ASCIIfile.txt", "r");
+
+  /* cycle through 'fp' to give us the number of entries stored */
+  while (!feof(fp))
+    {
+      fscanf(fp,"%d ",&x);
+      //printf("%d ",x);
+      fileSize++;
+    }
   rewind(fp);
 
-  if( fscanf(fp, "%d %*s", &temp) == EOF){
-    printf("EOF!\n");
+  //printf("Length of ASCIIfile: ");
+  //printf("%d\n", fileSize);
+  for (i=1;i<=fileSize/4;i++){
+    fscanf(fp, "%d ", &r1);
+    fscanf(fp, "%d ", &r2);
+    fscanf(fp, "%d ", &r3);
+    fscanf(fp, "%d ", &r4);
+
+    if( r1==r2 && r2==r3 && r3==r4 ){
+      quads++;
+      }else if( (r1==r2 && r2==r3) || (r2==r3 && r3==r4) || (r1==r2 && r2==r4) || (r1==r3 && r3 == r4) ){
+      triples++;
+      }else if( (r1==r2 && r3==r4) || (r2==r3 && r4==r1) || (r1==r3 && r2==r4) ){
+      pairs++;
+      }else if( r1==r2 || r1==r3 || r1==r4 || r2==r3 || r2==r4 || r3==r4){
+      doubles++;
+      }else{
+      none++;
+    }
   }
+
+  printf("No. of quads: ");
+  printf("%d\n", quads);
+  printf("No. of triples: ");
+  printf("%d\n", triples);
+  printf("No. of pairs: ");
+  printf("%d\n", pairs);
+  printf("No. of doubles: ");
+  printf("%d\n", doubles);
+  printf("No. of nones: ");
+  printf("%d\n", none);
+
+  return 0;
+
+
+
+  //if( fscanf(fp, "%d ", &temp) == EOF){
+    //printf("EOF!\n");
+  //}
 }
 
 int processRandomNumberFile(){
@@ -259,6 +321,8 @@ int processRandomNumberFile(){
 
   int i;
   int count = 0;
+
+  printf("begin number file processing\n");
 
   fp = fopen("numberfile.txt", "w");
 
@@ -274,7 +338,7 @@ int processRandomNumberFile(){
 
   //printf("%d", count);
   rewind(fp);
-  int r [ count ];
+  //int r [ count ];
   int r1, r2, r3, r4;
   int none = 0;
   int doubles = 0;
