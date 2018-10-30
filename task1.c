@@ -102,25 +102,33 @@ return 0;
 }
 
 int gapTest(){
-int i;
-int counter=0;
-float gapArray[7]={0,0,0,0,0,0,0};
-int r;
 
-printf("begin gap test\n");
+  bool found = false;
+  int i;
+  int counter=0;
+  float gapArray[7]={0,0,0,0,0,0,0};
+  int r;
+
+  printf("begin gap test\n");
 
   for (i=1;i<=10000;i++){
     r = generateRandomNumber();
     if (r!=4){
-      counter++;
-      if (counter>6){
-        counter=6;
+      if(found){
+        counter++;
+        if (counter>6){
+          counter=6;
+        }
       }
     }else{
-      gapArray[counter]++;
+      if(found){
+        gapArray[counter]++;
       //printf("Number 3 found - counter value: ");
       //printf("%d\n", counter);
-      counter=0;
+        counter=0;
+      }else{
+        found = true;
+      }
     }
   }
   printf("Gaps are as follows:\n");
